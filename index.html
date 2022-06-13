@@ -17,7 +17,9 @@
 <header>
   <nav class="navbar bg-primary">
   <div class="container-fluid">
-    <a class="title-app">Soccer Team Simulator</a>
+    <a class="title-app">Soccer Team Simulator
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Sol_de_Mayo-Bandera_de_Argentina.svg/2000px-Sol_de_Mayo-Bandera_de_Argentina.svg.png" style="width: 80px; height:50px; padding-left: 10px;"/><br>
+    </a>
     <form class="d-flex" role="search">
       <input placeholder="Search a Player" class="form-control " type="search" id="search" data-search />
       <button id="btn-searchPlayers" class="btn btn-outline-success"  type="submit" onclick="searchPlayers();">Search</button>
@@ -25,31 +27,95 @@
   </div>
 </nav>
 </header>
-<button type="submit" id="btn-addAll" value="initialList" onclick="addInitialList();">Create initial List of Players</button>
- <form id="eventForm" method="post" class="form ">
-     <label for="namePlayer"> player name: </label><br>
-     <input id="namePlayer" type="text " name="namePlayer" class="mat" required value="Enter a player" ><br>
-     <label for="surnamePlayer"> player surname: </label><br>
-     <input id="surnamePlayer" type="text " name="surnamePlayer" class="mat" required value="Enter surname" ><br>
-     <label for="qualificationNew"> Qualification</label><br>
-     <input id="qualificationNew" type="number" name="qualificationNew" class="mat" required value="0"><br>
-     <label for="position">Position</label><br>
-     <input id="position" type="text" name="position" class="mat" required><br>
-     <button type="submit" id="btn-submit" value="Send" onclick="addPlayer();">Add Player</button>
-     <button type="submit" id="btn-delete" value="Delete" onclick="delPlayer();">Delete Player</button>
-</form>
+<div class="container" id="eventForm">
+        <div class="text-center mt-2">
+            <h1 >Load players to get your best ranked team</h1> 
+        </div>
+  <div class="row ">
+    <div class="col-lg-8 mx-auto">
+    <button type="submit" id="btn-addAll" value="initialList" onclick="addInitialList();">Create initial List of Players</button>
+      <div class="card mt-2 mx-auto p-4 bg-light">
+          <div class="card-body bg-light">
+        <div class = "container">
+    <form id="contact-form" role="form" enctype="multipart/form-data">
+      <div class="controls">
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                         <label for="namePlayer" class="form-label"> player name: </label>
+                         <input id="namePlayer" type="text " name="namePlayer"  required value="Enter a player" >   
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                         <label for="surnamePlayer" class="form-label"> player surname: </label>
+                         <input id="surnamePlayer" type="text" name="surnamePlayer"  required value="Enter surname" >
+                      </div>
+                  </div>
+              </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="qualificationNew" class="form-label"> Qualification</label>
+        <input id="qualificationNew" type="number" name="qualificationNew"required value="0">
+      </div>
+    </div>
+    <div class="col-md-6 mt-2">
+      <div class="form-group">
+        <label for="position" class="form-label">Please, select one  *</label>
+        <select id="position" name="need" class="form-label" data-error="Please specify your position">
+          <option value="No indicated" selected>--Positions--</option>
+          <option >Forward</option>
+          <option >Middle</option>
+          <option >Winger</option>
+          <option >Defence</option>
+          <option >Goalkeeper</option>
+          <option >All</option>
+        </select>        
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-6 mt-2">
+          <input type="file" value="Click"/>
+      </div>
+      <div class="col-md-6">
+         <button type="submit" id="btn-loadPlayerImage" value="Upload Player Image">Add an image</button>
+      </div>
+  </div>
+  <div class="row">
+   <div class="col-md-6 mt-2">
+      <button type="submit" id="btn-submit" class="btn btn-outline-success"value="Send" onclick="addPlayer();">Add Player</button>
+   </div>
+    <div class="col-md-6 mt-2">
+      <button type="submit" id="btn-delete" class="btn btn-outline-danger" value="Delete" onclick="delPlayer();">Delete Player</button>
+    </div>
+  </div>
+      </div>
+    </form>
+        </div>
+         </div>
+    </div>
+    </div>
+  </div>
+</div>
 
 <div class="gallery"></div>
 
-<div class="players">
-    <div class="player">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Sol_de_Mayo-Bandera_de_Argentina.svg/2000px-Sol_de_Mayo-Bandera_de_Argentina.svg.png" /><br>
-        <div class ="name">player</div>
-        <div class="qualification">Qualification</div>
-        <div class="position">Position</div>
-    </div>
-</div>
-<h3>Ranking Total</h3>
+<table class="table table-info mt-3">
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">No. Shirt</th>
+      <th scope="col">Name Surname</th>
+      <th scope="col">Qualification</th>
+      <th scope="col">Position</th>
+    </tr>
+  </thead>
+  <tbody class="players">
+  </tbody>
+</table>
+
+<h3>Ranking Total </h3>
 <div class="total"></div>
 
 <script type="text/javascript" src="./soccerTeamSimulator.js" defer></script>
