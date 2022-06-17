@@ -18,7 +18,7 @@
   <nav class="navbar bg-primary">
   <div class="container-fluid">
     <a class="title-app">Soccer Team Simulator
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Sol_de_Mayo-Bandera_de_Argentina.svg/2000px-Sol_de_Mayo-Bandera_de_Argentina.svg.png" style="width: 80px; height:50px; padding-left: 10px;"/><br>
+    <img src="./assets/flag.png" style="width: 100px;border-radius: 50%; height:50px; transform: scale(1.2);"/><br>
     </a>
     <form class="d-flex" role="search">
       <input placeholder="Search a Player" class="form-control " type="search" id="search" data-search />
@@ -27,6 +27,19 @@
   </div>
 </nav>
 </header>
+
+<!-- Welcome -->
+<div id="modal-container" class="modal-container modal-container--visible">
+  <div id="welcomemodal" class="welcomemodal">
+    <label for="userName" class="form-label input-modal">What is your name?</label>
+    <input id="userName" type="text " name="userName" class="input-modal"  required value="enter your name" >
+    <label for="userPass" class="form-label input-modal">please, enter your password</label>
+    <input id="userPass" type="password" name="userPass" class="input-modal" required value="Enter your password" >
+    <button id="close-modal" class="btn btn-outline-info btn-modal">Start Soccer Team Simulator App</button>
+  </div>
+</div>
+<!-- EndOfWelcome -->
+
 <div class="container" id="eventForm">
         <div class="text-center mt-2">
             <h1 >Load players to get your best ranked team</h1> 
@@ -115,7 +128,7 @@
   </tbody>
 </table>
 
-<h3>Ranking Total </h3>
+
 <div class="total"></div>
 
 <script type="text/javascript" src="./soccerTeamSimulator.js" defer></script>

@@ -4,7 +4,8 @@
     
 }
 body{
-    background: linear-gradient(#A8E9FF, #5fb0cb);;
+    background: linear-gradient(#A8E9FF, #5fb0cb);
+   
 }
 
 h1 {
@@ -160,28 +161,20 @@ input {
 	border-radius: 15px;
 }
 .total{
-    background-color: #0e51e0;
+    background-color: #cff4fc;
     opacity: 0.8;
-    color: #fff;
+    color: #000;
     text-transform: uppercase;
     margin: auto;
-    border-radius: 15px;
+    border-radius: 5px;
     width: 90%;
     font-size: 24px;
     font-weight: bolder;
     text-align: center;
     border: 3px solid #f0f0f2;
-    padding: 20px 0;
+    padding: 2px 0;
 }
-h3 {
-text-align: center;
-font-size: 24px;
-color: #ffffff;
-border-bottom: 2px solid white;
-width: 90%;
-margin: auto;
-margin-bottom: 5px;
-}
+
 div>img {
 margin: auto;
 height: 100px;
@@ -194,7 +187,7 @@ width: 100px;
     justify-content: center;
     flex-grow: initial;
     font-size: 30px;
-    font-weight: 600;
+    font-weight: 400;
     text-transform: uppercase;
     color: #fff;
     letter-spacing: 1rem;
@@ -236,8 +229,12 @@ footer p {
 }
 .container-fluid {
     width: 65%;
+    
 }
-
+.container-fluid a {
+    text-decoration: none;
+    text-shadow: #f0f0f2;
+}
 .gallery {
     margin-top: 10px;
     gap: 5px;
@@ -277,7 +274,6 @@ text-transform: uppercase;
     align-items: center;
 }
 
-
 @media screen and (max-width:500px){
     .title-app{
     font-size: 24px;
@@ -285,6 +281,9 @@ text-transform: uppercase;
     }
     .gallery {
         grid-template-columns: repeat(2, 1fr);
+    }
+     .container-fluid img {
+    display: none;
     }
 }
 
@@ -299,8 +298,11 @@ text-transform: uppercase;
     .form-control{
     font-size: 13px;
     }
-    .container-fluid {
-    margin: 0;
+    .container-fluid{
+    margin-left: 40px ;
+    }
+    .container-fluid img {
+    display: none;
     }
 }
 .table {
@@ -317,4 +319,63 @@ text-transform: uppercase;
 .players {
     text-align: center;
     text-transform: capitalize;
+}
+
+
+/* Modal */
+.modal-container{
+background-image: url(./assets/welcomeBg.png);
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: inherit;
+
+width: 100%;
+min-height: 100vh;
+background-color: #000;
+position: fixed;
+top: 0;
+left: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 2000;
+opacity: 0;
+visibility: hidden;
+transition: .3s all ease-in;
+}
+
+.modal-container--visible{
+opacity: 1;
+visibility: visible;
+}
+.welcomemodal {
+margin: 0 auto;
+background: url(./assets/ballon.png);
+background-position: center;
+background-clip: unset;
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: inherit;
+width: 350px;
+height: 350px;
+border-radius: 50%;
+color: rgb(0, 81, 202);
+text-shadow: #f0f0f2;
+font-weight: 600;
+letter-spacing: .15rem;
+}
+.input-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    width: auto;
+    margin: 0 auto;
+    margin-top: 30px; 
+}
+.btn-modal {
+    margin-top: 10px;
+    color: #5fb0cb;
+    width: 200px;
 }

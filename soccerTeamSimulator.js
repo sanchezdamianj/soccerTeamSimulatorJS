@@ -15,7 +15,7 @@ createInitialList.addEventListener("submit", ()=> {
 
 const addInitialList = () => {    
         playersList.push(new Player('emiliano' ,'martinez', 10, 'Goalkeeper'));
-        playersList.push(new Player('cristian' ,'romero',10,'Defence'));
+        playersList.push(new Player('cristian','romero',10,'Defence'));
         playersList.push(new Player('nicolas' ,'otamendi',10,'Defence'));
         playersList.push(new Player('marcos','acunia', 10,'Winger' ));   
         playersList.push(new Player('gonzalo','montiel',10, 'Winger'));
@@ -30,30 +30,16 @@ const addInitialList = () => {
         rankTotal(playersList);     
 }
 
-function welcome() {
-    alert("Simulation Soccer Team");
-    const user = prompt('What is your name?');
-    const password = prompt(`${user} please, enter your password`);
-    validateUser(user, password);
-    return user, password;
-}
-
-function validateUser(user, password) {
-    if (user !== '' && password !== '') {
-        alert(`Hi ${user}, Welcome to the Soccer Team simulator`);
-        let quantity = prompt("How many team do you have?");
-        for(let i = quantity; i >= 0 ; i--){
-            alert(`The countdown is coming! ${i}`);
-            if (i === 0){alert(`Let's get started ${user}!!!!!!!!`)}
-        }
-    }else {
-        alert('You can login to the App, but you can not leave the fields in blank');  
-        welcome();
-    }        
-        
-
-}
-// welcome();
+//Modal 
+const modalContWelcome = document.querySelector('#modal-container'); 
+const closeModal = document.querySelector('#close-modal');
+closeModal.addEventListener('click', () =>{
+    const user = document.getElementById('userName').value;
+    const password = document.getElementById('userPass').value;
+    (user !== 'enter your name' && password !== '')?modalContWelcome.classList.remove('modal-container--visible')
+    :alert('You can login to the App, but you can not leave the fields in blank');
+})
+// endmodal
 
 const form = document.getElementById("eventForm");
 form.addEventListener("submit", function(event) {
@@ -72,16 +58,16 @@ const returnPlayers = async ()=>{
 	let player = [];
     let i = players.length - 1;
 	player[i] = await getPlayer(i);
+    const star = updateQualification(player[i].qualification);
 	let newHTMLCode = `
 		<tr>
             <th>${player[i].qualification}</th>
 		    <td class="name">${player[i].name} ${player[i].surname}</td>
-		    <td class="qualification">${player[i].qualification}</td> 
+		    <td class="qualification">${star}</td> 
             <td class="position">${player[i].position}</td> 
 		 </tr>`;
 	playersHTML.innerHTML += newHTMLCode;  
     localStorage.setItem(player[i].name, player[i].qualification, player[i].position);   
-    form.reset();
 }
 
 function addPlayer(){
@@ -103,8 +89,9 @@ function addPlayer(){
     }
 }
 function delPlayer(){
+    let nameToBeAdded = document.getElementById("namePlayer").value;  
     let playerToBeDeleted = document.getElementById("surnamePlayer").value;
-    let pos = players.findIndex(element => element.name === playerToBeDeleted);
+    let pos = players.findIndex(element => element.name === playerToBeDeleted || element.surname === nameToBeAdded);
       if (pos >= 0){   
         players.splice(pos, 1)
       };  
@@ -115,7 +102,7 @@ const rankTotal = (players) =>{
     const rankingTotalHTML = document.querySelector(".total");
     let sum = players.map(player => player.qualification).reduce((prev, curr) => prev + curr, 0);
     if(sum){
-    let rankHTMLCode = `<div class="total">${sum}</div>`;
+    let rankHTMLCode = `<div class="total">Ranking Total: ${sum}</div>`;
     rankingTotalHTML.innerHTML = rankHTMLCode;
     }   
     return sum;
@@ -129,7 +116,7 @@ const htmlStructure = (imgPath,arrPlayers, index) =>{
             <div class="card-body">
                 <h5 class="card-title">${arrPlayers[index].name} ${arrPlayers[index].surname}</h5>
                 <p class="card-text">${arrPlayers[index].qualification}</p>
-                <a href="#" class="btn btn-primary">Add to Team</a>
+                <button id="btn-addToTeam" onclick='toFinalTeam(${arrPlayers[index].name},${arrPlayers[index].surname});' class="btn btn-primary">Add to Team</button>
             </div>
         </div>`;
     galleryHTML.innerHTML += newGalleryHTMLCode;
@@ -146,6 +133,7 @@ function showInitList(setPlayers) {
   }
 }
 
+
 function searchPlayers(){
   let i,posRes= 0;
   let res = [...playersList];
@@ -158,10 +146,26 @@ function searchPlayers(){
        completeName = (("./assets/"+namePic+" "+input+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
     }
   }
-  completeName?htmlStructure(completeName, res, posRes): alert("There is no player with this name");   
+  try {
+  completeName.htmlStructure(completeName, res, posRes);
+  } catch (error) {
+   alert("There is no player with this name", error);   
+  }
 }
 
 document.getElementById("btn-searchPlayers").addEventListener("click",(e)=> {
     e.preventDefault();
 });
+
+function updateQualification(qualyQuantity) {
+const stars = [];
+for(let i = 0; i < qualyQuantity;i++){
+    stars.push(i+1)
+}
+return stars.map( () =>
+       `<img src='./assets/star.png' width="32" alt="estrellitas"/>`
+        ).join("");
+}
+
+
 
