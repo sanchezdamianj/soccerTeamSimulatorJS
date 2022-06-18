@@ -17,18 +17,17 @@
 <header>
   <nav class="navbar bg-primary">
   <div class="container-fluid">
-    <a class="title-app">Soccer Team Simulator
+    <a href="index.html" class="title-app">Soccer Team Simulator
     <img src="./assets/flag.png" style="width: 100px;border-radius: 50%; height:50px; transform: scale(1.2);"/><br>
     </a>
     <form class="d-flex" role="search">
-      <input placeholder="Search a Player" class="form-control " type="search" id="search" data-search />
+      <input placeholder="Search a Player" class="form-control " type="search" id="search"/>
       <button id="btn-searchPlayers" class="btn btn-outline-success"  type="submit" onclick="searchPlayers();">Search</button>
     </form>
   </div>
 </nav>
 </header>
 
-<!-- Welcome -->
 <div id="modal-container" class="modal-container modal-container--visible">
   <div id="welcomemodal" class="welcomemodal">
     <label for="userName" class="form-label input-modal">What is your name?</label>
@@ -38,7 +37,23 @@
     <button id="close-modal" class="btn btn-outline-info btn-modal">Start Soccer Team Simulator App</button>
   </div>
 </div>
-<!-- EndOfWelcome -->
+
+<div class="initial-list"></div>
+<!-- modal2 -->
+<div class="modal" id="modal2" data-animation="slideInOutLeft">
+  <div class="modal-dialog">
+    <header class="modal-header">
+      "You created the initial players list"
+      <button class="close-modal" aria-label="close modal" data-close>
+        ✕  
+      </button>
+    </header>
+    <section class="modal-content">
+      <p><strong>A List of players will be loaded to start your team</strong></p>
+    </section>
+  </div>
+</div>
+<!-- end modal2 -->
 
 <div class="container" id="eventForm">
         <div class="text-center mt-2">
@@ -46,7 +61,7 @@
         </div>
   <div class="row ">
     <div class="col-lg-8 mx-auto">
-    <button type="submit" id="btn-addAll" value="initialList" onclick="addInitialList();">Create initial List of Players</button>
+    <button type="submit" id="btn-addAll" data-open="modal2" value="initialList" onclick="addInitialList();">Create initial List of Players</button>
       <div class="card mt-2 mx-auto p-4 bg-light">
           <div class="card-body bg-light">
         <div class = "container">
@@ -114,6 +129,7 @@
 </div>
 
 <div class="gallery"></div>
+<div class="galleryFInalTeam" >Final Team</div>
 
 <table class="table table-info mt-3">
   <thead>

@@ -8,9 +8,11 @@ class Player {
 }
    
 const playersList = [];
+const finalTeam = [];
+
 let createInitialList = document.getElementById("btn-addAll");
 createInitialList.addEventListener("submit", ()=> {
-        addInitialList();
+    addInitialList();
 });
 
 const addInitialList = () => {    
@@ -25,12 +27,17 @@ const addInitialList = () => {
         playersList.push(new Player('lautaro','martinez',10, 'Forward'));
         playersList.push(new Player('angel','di maria',10, 'Forward'));
         playersList.push(new Player('lionel','messi',10, 'All'));  
-        alert("You created the initial players list");
+        addLocalStorage()
         showInitList(playersList);   
         rankTotal(playersList);     
 }
 
-//Modal 
+function addLocalStorage(){
+   for(let i = 0; i < playersList.length;i++){
+    localStorage.setItem(playersList[i].name,playersList[i].surname); 
+    }
+}
+//Modal Welcome
 const modalContWelcome = document.querySelector('#modal-container'); 
 const closeModal = document.querySelector('#close-modal');
 closeModal.addEventListener('click', () =>{
@@ -39,7 +46,48 @@ closeModal.addEventListener('click', () =>{
     (user !== 'enter your name' && password !== '')?modalContWelcome.classList.remove('modal-container--visible')
     :alert('You can login to the App, but you can not leave the fields in blank');
 })
-// endmodal
+// End Modal Welcome
+//Modal initialList
+// const btnInitialListPressed = document.querySelector('#btn-addAll');
+// btnInitialListPressed.addEventListener("click", ()=>{
+//     const idModalContainer = document.getElementsByClassName('initial-list');    
+//     const idModal = document.createElement('div');
+//     idModal.classList.add('initial-modal');
+//     idModal.setAttribute("id",'initial-modal');
+//     let titleInitial = document.createElement('h2');
+//     let titleInitialText = document.createTextNode("You created the initial players list");
+//     titleInitial.appendChild(titleInitialText);
+//     idModal.appendChild(titleInitial);
+//     idModalContainer[0].appendChild(idModal);
+//     document.body.setAttribute("style",'opacity:0.4')
+// })
+// End InitialList
+
+const openEls = document.querySelectorAll("[data-open]");
+const closeEls = document.querySelectorAll("[data-close]");
+const isVisible = "is-visible";
+for (const el of openEls) {
+  el.addEventListener("click", function() {
+    const modalId = this.dataset.open;
+    document.getElementById(modalId).classList.add(isVisible);
+  });
+}
+for (const el of closeEls) {
+  el.addEventListener("click", function() {
+    this.parentElement.parentElement.parentElement.classList.remove(isVisible);
+  });
+}
+document.addEventListener("click", e => {
+  if (e.target == document.querySelector(".modal.is-visible")) {
+    document.querySelector(".modal.is-visible [data-close]").click();
+  }
+});
+document.addEventListener("keyup", e => {
+  if (e.key == "Escape" && document.querySelector(".modal.is-visible")) {
+    document.querySelector(".modal.is-visible [data-close]").click();
+  }
+});
+//end
 
 const form = document.getElementById("eventForm");
 form.addEventListener("submit", function(event) {
@@ -66,8 +114,20 @@ const returnPlayers = async ()=>{
 		    <td class="qualification">${star}</td> 
             <td class="position">${player[i].position}</td> 
 		 </tr>`;
-	playersHTML.innerHTML += newHTMLCode;  
-    localStorage.setItem(player[i].name, player[i].qualification, player[i].position);   
+	playersHTML.innerHTML += newHTMLCode;    
+
+    let imgPathToTeam = (("./assets/"+player[i].name+" "+player[i].surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
+    const galleryHTML = document.querySelector(".galleryFInalTeam");
+     let newGalleryHTMLCode = `      
+        <div class="cardFT">
+            <img src="${imgPathToTeam}" class="card-img-top" alt="">
+            <div class="card-bodyFT">
+                <h5 id="idjug" class="card-titleFT">${player[i].name} ${player[i].surname}</h5>
+                <p class="card-textFT">Ranking:${player[i].qualification}</p>
+                <button id="btn-addToTeam" onclick='toFinalTeam(${i})' class="btn btn-outline-danger ft">X</button>
+            </div>
+        </div>`;
+    galleryHTML.innerHTML += newGalleryHTMLCode;
 }
 
 function addPlayer(){
@@ -77,7 +137,7 @@ function addPlayer(){
     let position = document.getElementById("position").value;   
     let playerNew = new Player(nameToBeAdded,surnameToBeAdded,qualificationNew ,position);
     if(players = [{}]){
-        players = [...playersList];
+        players = [...playersList + playerNew];
     }
     if (namePlayer.value !== "Enter a player"){
         let pos = players.findIndex(element =>  element.name === nameToBeAdded || element.name === surnameToBeAdded);
@@ -111,12 +171,12 @@ const rankTotal = (players) =>{
 const htmlStructure = (imgPath,arrPlayers, index) =>{
     const galleryHTML = document.querySelector(".gallery");
      let newGalleryHTMLCode = `      
-        <div class="card" style="width: 225px; height:375px;">
-            <img src="${imgPath}" class="card-img-top" alt="${arrPlayers[index].name}">
-            <div class="card-body">
-                <h5 class="card-title">${arrPlayers[index].name} ${arrPlayers[index].surname}</h5>
-                <p class="card-text">${arrPlayers[index].qualification}</p>
-                <button id="btn-addToTeam" onclick='toFinalTeam(${arrPlayers[index].name},${arrPlayers[index].surname});' class="btn btn-primary">Add to Team</button>
+        <div class="card" style="width: 225px;height:375px;">
+            <img src="${imgPath}" class="card-img-top" alt="">
+            <div class=""card-body>
+                <h5 id="idjug" class="card-title">${arrPlayers[index].name} ${arrPlayers[index].surname}</h5>
+                <p class="card-text">Qualification: ${arrPlayers[index].qualification}</p>
+                <button id="btn-addToTeam" onclick='toFinalTeam(${index})' class="btn btn-primary">Add to Team</button>
             </div>
         </div>`;
     galleryHTML.innerHTML += newGalleryHTMLCode;
@@ -133,29 +193,29 @@ function showInitList(setPlayers) {
   }
 }
 
+document.getElementById("btn-searchPlayers").addEventListener("click",(e)=> {
+    e.preventDefault();
+});
 
 function searchPlayers(){
-  let i,posRes= 0;
-  let res = [...playersList];
-  let namePic,completeName = "";
+  let namePic = "";
+  let surnamePic = "";
+  let completeName = "";
   let input = document.getElementById("search").value;
-  for (i; i < res.length; i++) {
-    if (input === res[i].surname || input === res[i].name){
-       namePic = res[i].name;
-       posRes = i;
-       completeName = (("./assets/"+namePic+" "+input+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
+  let res = playersList.find((pl) => pl.name === input || pl.surname === input);
+  let posRes = playersList.findIndex((pl) => pl.name === input || pl.surname === input);
+  if (res){
+       namePic = res.name;
+       surnamePic = res.surname;
+       completeName = (("./assets/"+namePic+" "+surnamePic+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
     }
-  }
   try {
-  completeName.htmlStructure(completeName, res, posRes);
+  htmlStructure(completeName, playersList, posRes);
   } catch (error) {
    alert("There is no player with this name", error);   
   }
 }
 
-document.getElementById("btn-searchPlayers").addEventListener("click",(e)=> {
-    e.preventDefault();
-});
 
 function updateQualification(qualyQuantity) {
 const stars = [];
@@ -167,5 +227,34 @@ return stars.map( () =>
         ).join("");
 }
 
+document.getElementById("btn-addToTeam")?.addEventListener("click", (e) => {
+e.preventDefault();
+});
 
 
+// Array about final team to get the ranking, displat it into cancha
+function toFinalTeam(index){
+    const pls = playersList[index];
+    const name = pls.name;
+    const surname = pls.surname;
+    const quali = pls.qualification;
+    const pos = pls.position;
+    let playerNew = new Player(name,surname,quali,pos);
+    finalTeam.push(playerNew);
+    imgPathToTeam = (("./assets/"+name+" "+surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
+    let posRes = finalTeam.length - 1;
+    // htmlStructure(imgPathToTeam, finalTeam, posRes);
+   
+    const galleryHTML = document.querySelector(".galleryFInalTeam");
+     let newGalleryHTMLCode = `      
+        <div class="cardFT">
+            <img src="${imgPathToTeam}" class="card-img-top" alt="">
+            <div class="card-bodyFT">
+                <h5 id="idjug" class="card-titleFT">${name} ${surname}</h5>
+                <p class="card-textFT">Ranking:${quali}</p>
+                <button id="btn-addToTeam" onclick='toFinalTeam(${posRes})' class="btn btn-outline-danger ft">X</button>
+            </div>
+        </div>`;
+    galleryHTML.innerHTML += newGalleryHTMLCode;
+
+}
