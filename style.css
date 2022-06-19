@@ -515,13 +515,14 @@ align-items: center;
     text-align: center;
     font-weight: 800;
     color:#4061bf;
-    margin: 60px 10px; 
+    margin: 60px 0;
     gap: 5px;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
     justify-items: center;
     width: 100%;
+    overflow: hidden;
 }
 
 .gallerySustitute .card {
@@ -616,7 +617,8 @@ align-items: center;
 .line-grass-square {
   background-color: none;
   border: 5px solid #FFFFFF;
-  height: 467px;
+  /* height: 467px; */
+  height: 100vh;
   width: 967px;
   display: block;
   margin: auto;
