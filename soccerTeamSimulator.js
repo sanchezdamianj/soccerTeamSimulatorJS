@@ -9,6 +9,7 @@ class Player {
    
 const playersList = [];
 const finalTeam = [];
+const finalTeamSustitutes = [];
 
 let createInitialList = document.getElementById("btn-addAll");
 createInitialList.addEventListener("submit", ()=> {
@@ -46,23 +47,8 @@ closeModal.addEventListener('click', () =>{
     (user !== 'enter your name' && password !== '')?modalContWelcome.classList.remove('modal-container--visible')
     :alert('You can login to the App, but you can not leave the fields in blank');
 })
-// End Modal Welcome
-//Modal initialList
-// const btnInitialListPressed = document.querySelector('#btn-addAll');
-// btnInitialListPressed.addEventListener("click", ()=>{
-//     const idModalContainer = document.getElementsByClassName('initial-list');    
-//     const idModal = document.createElement('div');
-//     idModal.classList.add('initial-modal');
-//     idModal.setAttribute("id",'initial-modal');
-//     let titleInitial = document.createElement('h2');
-//     let titleInitialText = document.createTextNode("You created the initial players list");
-//     titleInitial.appendChild(titleInitialText);
-//     idModal.appendChild(titleInitial);
-//     idModalContainer[0].appendChild(idModal);
-//     document.body.setAttribute("style",'opacity:0.4')
-// })
-// End InitialList
 
+// Initial modal list 
 const openEls = document.querySelectorAll("[data-open]");
 const closeEls = document.querySelectorAll("[data-close]");
 const isVisible = "is-visible";
@@ -87,7 +73,7 @@ document.addEventListener("keyup", e => {
     document.querySelector(".modal.is-visible [data-close]").click();
   }
 });
-//end
+//end Initial Modal list
 
 const form = document.getElementById("eventForm");
 form.addEventListener("submit", function(event) {
@@ -216,7 +202,6 @@ function searchPlayers(){
   }
 }
 
-
 function updateQualification(qualyQuantity) {
 const stars = [];
 for(let i = 0; i < qualyQuantity;i++){
@@ -231,7 +216,6 @@ document.getElementById("btn-addToTeam")?.addEventListener("click", (e) => {
 e.preventDefault();
 });
 
-
 // Array about final team to get the ranking, displat it into cancha
 function toFinalTeam(index){
     const pls = playersList[index];
@@ -240,21 +224,50 @@ function toFinalTeam(index){
     const quali = pls.qualification;
     const pos = pls.position;
     let playerNew = new Player(name,surname,quali,pos);
-    finalTeam.push(playerNew);
     imgPathToTeam = (("./assets/"+name+" "+surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
-    let posRes = finalTeam.length - 1;
-    // htmlStructure(imgPathToTeam, finalTeam, posRes);
-   
-    const galleryHTML = document.querySelector(".galleryFInalTeam");
-     let newGalleryHTMLCode = `      
-        <div class="cardFT">
-            <img src="${imgPathToTeam}" class="card-img-top" alt="">
-            <div class="card-bodyFT">
-                <h5 id="idjug" class="card-titleFT">${name} ${surname}</h5>
-                <p class="card-textFT">Ranking:${quali}</p>
-                <button id="btn-addToTeam" onclick='toFinalTeam(${posRes})' class="btn btn-outline-danger ft">X</button>
-            </div>
-        </div>`;
-    galleryHTML.innerHTML += newGalleryHTMLCode;
+    if(finalTeam.length < 11){
+        finalTeam.push(playerNew);
+        let posFT = finalTeam.length - 1;
+        const galleryHTML = document.querySelector(".galleryFinalTeam");
+         htmlStructureCard(imgPathToTeam,name,surname,quali,posFT,galleryHTML,'cardFT');
+    }else {
+        posSus = finalTeamSustitutes.length;
+        finalTeamSustitutes.push(playerNew);
+        const gallerySusHTML = document.querySelector(".gallerySustitute");
+        showModal();
+        htmlStructureCard(imgPathToTeam,name,surname,quali,posSus,gallerySusHTML,'card');
+    }
+}
 
+function htmlStructureCard(imgPath,name,surname,quali,index,galleryTypeHTML,cardType){
+        let message = '';
+        let classAd = '';
+        let btnClass = '';
+        if(cardType === 'card'){
+            message= 'Add to Team';
+            classAd= '';
+            btnClass = 'btn-outline-success';
+        }else{
+            message= 'X';
+            classAd = 'ft'
+            btnClass = 'btn-outline-danger'
+        }
+        let newGalleryHTMLCode = `      
+            <div class="${cardType}">
+                <img src="${imgPath}" class="card-img-top" alt="">
+                <div class="card-bodyFT">
+                    <h5 id="idjug" class="card-titleFT">${name} ${surname}</h5>
+                    <p class="card-textFT">Ranking:${quali}</p>
+                    <button id="btn-addToTeam" onclick='toFinalTeam(${index})' class="btn ${btnClass} ${classAd}">${message}</button>
+                </div>
+            </div>`;
+        galleryTypeHTML.innerHTML += newGalleryHTMLCode;
+}
+
+function showModal() {
+  document.getElementById('openModal').style.display = 'block';
+}
+
+function CloseModal() {
+  document.getElementById('openModal').style.display = 'none';
 }
