@@ -100,20 +100,12 @@ const returnPlayers = async ()=>{
 		    <td class="qualification">${star}</td> 
             <td class="position">${player[i].position}</td> 
 		 </tr>`;
-	playersHTML.innerHTML += newHTMLCode;    
-
+	playersHTML.innerHTML += newHTMLCode;
     let imgPathToTeam = (("./assets/"+player[i].name+" "+player[i].surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
-    const galleryHTML = document.querySelector(".galleryFInalTeam");
-     let newGalleryHTMLCode = `      
-        <div class="cardFT">
-            <img src="${imgPathToTeam}" class="card-img-top" alt="">
-            <div class="card-bodyFT">
-                <h5 id="idjug" class="card-titleFT">${player[i].name} ${player[i].surname}</h5>
-                <p class="card-textFT">Ranking:${player[i].qualification}</p>
-                <button id="btn-addToTeam" onclick='toFinalTeam(${i})' class="btn btn-outline-danger ft">X</button>
-            </div>
-        </div>`;
-    galleryHTML.innerHTML += newGalleryHTMLCode;
+    let playerNew = new Player(player[i].name,player[i].surname,player[i].qualification ,player[i].position);
+    playersList.push(playerNew);
+    let index = playersList.length -1;
+    htmlStructure(imgPathToTeam,playersList,index);
 }
 
 function addPlayer(){
@@ -123,7 +115,7 @@ function addPlayer(){
     let position = document.getElementById("position").value;   
     let playerNew = new Player(nameToBeAdded,surnameToBeAdded,qualificationNew ,position);
     if(players = [{}]){
-        players = [...playersList + playerNew];
+        players = [...playersList];
     }
     if (namePlayer.value !== "Enter a player"){
         let pos = players.findIndex(element =>  element.name === nameToBeAdded || element.name === surnameToBeAdded);
@@ -142,7 +134,6 @@ function delPlayer(){
         players.splice(pos, 1)
       };  
 }
-
 
 const rankTotal = (players) =>{
     const rankingTotalHTML = document.querySelector(".total");
