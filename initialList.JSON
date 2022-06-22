@@ -1,0 +1,68 @@
+[
+    {
+        "name": "emiliano",
+        "surname": "martinez",
+        "qualification": 10,
+        "position": "Goalkeeper"
+    },
+    {
+        "name": "cristian",
+        "surname": "romero",
+        "qualification": 10,
+        "position": "Defence"
+    },
+    {
+        "name": "nicolas",
+        "surname": "otamendi",
+        "qualification": 10,
+        "position": "Defence"
+    },
+    {
+        "name": "marcos",
+        "surname": "acunia",
+        "qualification": 10,
+        "position": "Winger"
+    },
+    {
+        "name": "gonzalo",
+        "surname": "montiel",
+        "qualification": 10,
+        "position": "Winger"
+    },
+    {
+        "name": "leandro",
+        "surname": "paredes",
+        "qualification": 10,
+        "position": "Middle"
+    },
+    {
+        "name": "rodrigo",
+        "surname": "de paul",
+        "qualification": 10,
+        "position": "Middle"
+    },
+    {
+        "name": "giovani",
+        "surname": "lo celso",
+        "qualification": 10,
+        "position": "Middle"
+    },
+    {
+        "name": "lautaro",
+        "surname": "martinez",
+        "qualification": 10,
+        "position": "Forward"
+    },
+    {
+        "name": "angel",
+        "surname": "di maria",
+        "qualification": 10,
+        "position": "Forward"
+    },
+    {
+        "name": "lionel",
+        "surname": "messi",
+        "qualification": 10,
+        "position": "All"
+    }
+]

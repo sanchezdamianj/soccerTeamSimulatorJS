@@ -10,34 +10,47 @@ class Player {
 const playersList = [];
 const finalTeam = [];
 const finalTeamSustitutes = [];
+const url = "./initialList.JSON";
 
 let createInitialList = document.getElementById("btn-addAll");
 createInitialList.addEventListener("submit", ()=> {
-    addInitialList();
+        addInitialList();
 });
 
-const addInitialList = () => {    
-        playersList.push(new Player('emiliano' ,'martinez', 10, 'Goalkeeper'));
-        playersList.push(new Player('cristian','romero',10,'Defence'));
-        playersList.push(new Player('nicolas' ,'otamendi',10,'Defence'));
-        playersList.push(new Player('marcos','acunia', 10,'Winger' ));   
-        playersList.push(new Player('gonzalo','montiel',10, 'Winger'));
-        playersList.push(new Player('leandro','paredes',10,'Middle'));
-        playersList.push(new Player('rodrigo','de paul',10, 'Middle'));
-        playersList.push(new Player('giovani','lo celso',10, 'Middle'));   
-        playersList.push(new Player('lautaro','martinez',10, 'Forward'));
-        playersList.push(new Player('angel','di maria',10, 'Forward'));
-        playersList.push(new Player('lionel','messi',10, 'All'));  
-        addLocalStorage()
-        showInitList(playersList);   
-        rankTotal(playersList);     
+const addInitialList = () => {      
+       showInitList(playersList);   
+       rankTotal(playersList);   
 }
 
-function addLocalStorage(){
-   for(let i = 0; i < playersList.length;i++){
-    localStorage.setItem(playersList[i].name,playersList[i].surname); 
-    }
+// loading playerList with json file
+function requestPlayers() {
+let n =""
+let s = ""
+let q = 0
+let p = ""
+    fetch('initialList.json')
+      .then(response => response.json())
+      .then(data => 
+            {
+            data.forEach( pl => {
+            n = pl.name
+            s = pl.surname
+            q = pl.qualification
+            p = pl.position
+            let player = new Player(n,s,q,p);
+            playersList.push(player)
+                        }   );
+            }   
+        );
+    if (playersList === []) {
+      reject(new Error("No existe un array"));
+    }   
 }
+requestPlayers();
+// Quiero llamar a requestPlayers() desde addInitialList(), pero no llega a cargar 
+// el array playerList para que showInitialList() lo tome como argumento 
+
+
 //Modal Welcome
 const modalContWelcome = document.querySelector('#modal-container'); 
 const closeModal = document.querySelector('#close-modal');
@@ -46,6 +59,7 @@ closeModal.addEventListener('click', () =>{
     const password = document.getElementById('userPass').value;
     (user !== 'enter your name' && password !== '')?modalContWelcome.classList.remove('modal-container--visible')
     :alert('You can login to the App, but you can not leave the fields in blank');
+    localStorage.setItem(user,password);
 })
 
 // Initial modal list 
@@ -220,7 +234,7 @@ function toFinalTeam(index){
         finalTeam.push(playerNew);
         let posFT = finalTeam.length - 1;
         const galleryHTML = document.querySelector(".galleryFinalTeam");
-         htmlStructureCard(imgPathToTeam,name,surname,quali,posFT,galleryHTML,'cardFT');
+        htmlStructureCard(imgPathToTeam,name,surname,quali,posFT,galleryHTML,'cardFT');
     }else {
         posSus = finalTeamSustitutes.length;
         finalTeamSustitutes.push(playerNew);
@@ -234,14 +248,20 @@ function htmlStructureCard(imgPath,name,surname,quali,index,galleryTypeHTML,card
         let message = '';
         let classAd = '';
         let btnClass = '';
+        let id = '';
+        let fnOnclick = '';
         if(cardType === 'card'){
             message= 'Add to Team';
             classAd= '';
             btnClass = 'btn-outline-success';
+            id = "btn-addToTeam";
+            fnOnclick = 'toFinalTeam(${index});'
         }else{
-            message= 'X';
-            classAd = 'ft'
-            btnClass = 'btn-outline-danger'
+            message= '<i class="bi bi-trash"></i>';
+            classAd = 'ft';
+            btnClass = 'btn-outline-danger';
+            id = 'btn-remove';
+            fnOnclick = `renderPlayerList(${index})`;
         }
         let newGalleryHTMLCode = `      
             <div class="${cardType}">
@@ -249,7 +269,7 @@ function htmlStructureCard(imgPath,name,surname,quali,index,galleryTypeHTML,card
                 <div class="card-bodyFT">
                     <h5 id="idjug" class="card-titleFT">${name} ${surname}</h5>
                     <p class="card-textFT">Ranking:${quali}</p>
-                    <button id="btn-addToTeam" onclick='toFinalTeam(${index})' class="btn ${btnClass} ${classAd}">${message}</button>
+                    <button id="${id}" onclick='${fnOnclick}' class="btn ${btnClass} ${classAd}">${message}</button>
                 </div>
             </div>`;
         galleryTypeHTML.innerHTML += newGalleryHTMLCode;
@@ -262,3 +282,24 @@ function showModal() {
 function CloseModal() {
   document.getElementById('openModal').style.display = 'none';
 }
+
+
+// Remove Player from cancha
+document.getElementById('btn-remove')?.addEventListener("click", (e) => {
+e.preventDefault();
+
+});
+const renderPlayerList = (posInFT) => {
+    finalTeam.splice(posInFT,1);
+    const galleryHTML = document.querySelector(".galleryFinalTeam");
+    galleryHTML.innerHTML = ''; //this line re-render the cancha
+    for(let i = 0; i<= finalTeam.length -1;i++){
+    const name = finalTeam[i].name;
+    const surname = finalTeam[i].surname;
+    const quali = finalTeam[i].qualification;
+    imgPathToTeam = (("./assets/"+name+" "+surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
+    htmlStructureCard(imgPathToTeam,name,surname,quali,i,galleryHTML,'cardFT');
+    }
+}
+
+
