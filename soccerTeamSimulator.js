@@ -17,7 +17,7 @@ createInitialList.addEventListener("submit", ()=> {
         addInitialList();
 });
 
-const addInitialList = () => {      
+const addInitialList = () => {   
        showInitList(playersList);   
        rankTotal(playersList);   
 }
@@ -47,9 +47,6 @@ let p = ""
     }   
 }
 requestPlayers();
-// Quiero llamar a requestPlayers() desde addInitialList(), pero no llega a cargar 
-// el array playerList para que showInitialList() lo tome como argumento 
-
 
 //Modal Welcome
 const modalContWelcome = document.querySelector('#modal-container'); 
@@ -59,7 +56,7 @@ closeModal.addEventListener('click', () =>{
     const password = document.getElementById('userPass').value;
     (user !== 'enter your name' && password !== '')?modalContWelcome.classList.remove('modal-container--visible')
     :alert('You can login to the App, but you can not leave the fields in blank');
-    localStorage.setItem(user,password);
+    localStorage.setItem('password',password);
 })
 
 // Initial modal list 
@@ -290,6 +287,9 @@ e.preventDefault();
 
 });
 const renderPlayerList = (posInFT) => {
+  const validate = prompt('Enter your pass again?');
+  const pass = localStorage.getItem('password')
+  if(validate === pass){
     finalTeam.splice(posInFT,1);
     const galleryHTML = document.querySelector(".galleryFinalTeam");
     galleryHTML.innerHTML = ''; //this line re-render the cancha
@@ -299,6 +299,7 @@ const renderPlayerList = (posInFT) => {
     const quali = finalTeam[i].qualification;
     imgPathToTeam = (("./assets/"+name+" "+surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
     htmlStructureCard(imgPathToTeam,name,surname,quali,i,galleryHTML,'cardFT');
+    }
     }
 }
 
