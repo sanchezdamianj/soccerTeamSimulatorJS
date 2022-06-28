@@ -190,8 +190,8 @@ function searchPlayers(){
   let surnamePic = "";
   let completeName = "";
   let input = document.getElementById("search").value;
-  let res = playersList.find((pl) => pl.name === input || pl.surname === input);
-  let posRes = playersList.findIndex((pl) => pl.name === input || pl.surname === input);
+  let res = playersList.find((pl) => pl.name.includes(input) || pl.surname.includes(input));
+  let posRes = playersList.findIndex((pl) => pl.name.includes(input) || pl.surname.includes(input));
   if (res){
        namePic = res.name;
        surnamePic = res.surname;
