@@ -55,7 +55,7 @@ closeModal.addEventListener('click', () =>{
     const user = document.getElementById('userName').value;
     const password = document.getElementById('userPass').value;
     (user !== 'enter your name' && password !== '')?modalContWelcome.classList.remove('modal-container--visible')
-    :alert('You can login to the App, but you can not leave the fields in blank');
+    :swal('You can login to the App', 'but you can not leave the fields in blank', 'error');
     localStorage.setItem('password',password);
 })
 
@@ -112,11 +112,11 @@ const returnPlayers = async ()=>{
             <td class="position">${player[i].position}</td> 
 		 </tr>`;
 	playersHTML.innerHTML += newHTMLCode;
-    let imgPathToTeam = (("./assets/"+player[i].name+" "+player[i].surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
-    let playerNew = new Player(player[i].name,player[i].surname,player[i].qualification ,player[i].position);
-    playersList.push(playerNew);
-    let index = playersList.length -1;
-    htmlStructure(imgPathToTeam,playersList,index);
+  let imgPathToTeam = (("./assets/"+player[i].name+" "+player[i].surname+".jpg").replace(/[' "]+/g, ' ')).toLowerCase();
+  let playerNew = new Player(player[i].name,player[i].surname,player[i].qualification ,player[i].position);
+  playersList.push(playerNew);
+  let index = playersList.length -1;
+  htmlStructure(imgPathToTeam,playersList,index);
 }
 
 function addPlayer(){
@@ -200,7 +200,8 @@ function searchPlayers(){
   try {
   htmlStructure(completeName, playersList, posRes);
   } catch (error) {
-   alert("There is no player with this name", error);   
+   swal("There is no player with this name or surname"); 
+   console.log(error);  
   }
 }
 
